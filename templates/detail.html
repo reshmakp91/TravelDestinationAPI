@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destination Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: MediumAquamarine;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            display: inline;
+        }
+        .edit-link {
+            font-size: 0.9em;
+            margin-left: 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .edit-link:hover {
+            text-decoration: underline;
+        }
+        .back-button {
+            float: right;
+            margin-bottom: 20px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 15px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        p {
+            color: #666;
+            line-height: 1.5;
+        }
+        img {
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+            transition: color 0.3s;
+        }
+        a:hover {
+            color: #0056b3;
+        }
+        button {
+            background-color: #dc3545;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 15px;
+            cursor: pointer;
+
+        }
+        button:hover {
+            background-color: darkblue;
+        }
+    </style>
+    <script>
+        function confirmDelete(destinationID) {
+            // Prevent form submission by default
+            event.preventDefault();
+            if (confirm('Are you sure you want to delete this destination?')) {
+                // Submit the form programmatically
+                document.getElementById('delete-form-' + destinationID).submit();
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        {% endif %}<br/>
+        <a class="back-button" href="{% url 'index' %}">Back to home page</a>
+        {% if destination %}
+            <h1>{{ destination.place_name }}</h1>
+            {% if is_owner %}
+                <a class="edit-link" href="{% url 'update_destination' destination.id %}">Edit Details</a>
+            {% endif %}
+            <p>Weather: {{ destination.weather }}</p>
+            <p>Location: {{ destination.state }} - {{ destination.district }}</p>
+            <p><a href="{{ destination.google_map_link }}">View on Google Maps</a></p>
+            {% if destination.Destination_img %}
+                <img src="{{ destination.Destination_img }}" alt="{{ destination.place_name }}">
+            {% endif %}
+            <p>{{ destination.description }}</p>
+        {% else %}
+            <p>No destination found.</p>
+        {% endif %}
+        {% if is_owner %}
+            <form method="POST" action="{% url 'delete_destination' destination.id %}">
+                {% csrf_token %}
+                <button type="submit" onclick="confirmDelete('{{ destination.id }}')">Delete Destination</button>
+            </form>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{% extends 'accounts_base.html' %}
+{% load static %}
+{% block content %}
+<h2 class="text-center"><strong>Login</strong></h2><hr/>
+{% if messages %}
+    {% for message in messages %}
+        {{ message }}
+    {% endfor %}
+{% endif %}
+<form method="POST" action="{% url 'user_login' %}">
+    {% csrf_token %}
+    <table>
+        <tr>
+            <td><strong>Username: </strong></td>
+            <td><input type="text" id="username" name="username" required></td>
+        </tr>
+        <tr>
+            <td><strong>Password:</strong></td>
+            <td><input type="password" id="password" name="password" required></td>
+        </tr>
+    </table><br/>
+    <center><button type="submit">Login</button></center>
+    <br>
+    <center><h6>New User?? <a href="{% url 'user_register' %}" style="text-decoration: None">Register Now</a></h6></center>
+</form>
+{% endblock %}
