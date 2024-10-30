@@ -80,14 +80,12 @@
         }
     </style>
     <script>
-        function confirmDelete(destinationID) {
-            // Prevent form submission by default
-            event.preventDefault();
-            if (confirm('Are you sure you want to delete this destination?')) {
-                // Submit the form programmatically
-                document.getElementById('delete-form-' + destinationID).submit();
-            }
-        }
+        function confirmDelete(event, destinationID) {
+    event.preventDefault(); // Prevent default form submission
+    if (confirm('Are you sure you want to delete this destination?')) {
+        document.getElementById('delete-form-' + destinationID).submit();
+    }
+}
     </script>
 </head>
 <body>
