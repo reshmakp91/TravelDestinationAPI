@@ -11,7 +11,6 @@ urlpatterns = [
     path('states/<int:country_id>/', StateListView.as_view(), name='state-list'),
     path('districts/<int:state_id>/', DistrictListView.as_view(), name='district-list'),
     path('logout/', LogoutView.as_view(), name='logout_view'),
-
     path('register_user/', views.user_register, name='user_register'),
     path('login_user/', views.user_login, name='user_login'),
     path('index/', views.index, name='index'),

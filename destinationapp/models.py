@@ -47,7 +47,7 @@ class Destination(models.Model):
     state = models.CharField(max_length=100)
     district = models.CharField(max_length=100)
     google_map_link = models.URLField(max_length=500)
-    Destination_img = models.ImageField(upload_to='destinations/', null=True, blank=True)
+    Destination_img = models.ImageField(upload_to='media/', null=True, blank=True)
     description = models.TextField()
     created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
 

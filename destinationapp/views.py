@@ -17,7 +17,7 @@ from django.conf import settings
 from django.urls import reverse
 import requests
 from django.contrib.auth import get_user_model
-from rest_framework.authtoken.models import Token
+
 
 User = get_user_model()
 
