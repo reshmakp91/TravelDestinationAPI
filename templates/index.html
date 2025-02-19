@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .hero-image {
+        width: 100%; /* Make the image cover the full width of the page */
+        object-fit: cover; /* Ensure the image covers the area without distorting its aspect ratio */
+    }
+    .delete-button {
+        background-color: red; /* Red background for the delete button */
+        color: white; /* White text for contrast */
+        border: none; /* Remove border */
+        padding: 5px 10px; /* Add some padding */
+        cursor: pointer; /* Change cursor to pointer */
+    }
+</style>
+<script>
+  function confirmDelete(destinationID) {
+    if (confirm('Are you sure you want to delete this destination?')) {
+      window.location.href = "{% url 'delete_destination' 0 %}".replace('0', destinationID);
+    }
+  }
+</script>
+
+{% if messages %}
+    {% for message in messages %}
+        {{ message }}
+    {% endfor %}
+{% endif %}
+<br/>
+<div>
+    <img src="{% static 'assets/img/kerala.jpg' %}" alt="Kerala" class="hero-image">
+</div>
+<br/><hr/>
+<h3 style="font-weight: bold; color: MediumVioletRed">Destinations</h3>
+<div class="row">
+    {% if destinations %}
+        <div class="row">
+            {% for destination in destinations %}
+              <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                  <img src="{{ destination.Destination_img }}" class="card-img-top" alt="{{ destination.place_name }} image" style="height: 200px; object-fit: cover;">
+                  <div class="card-body">
+                    <h4 class="card-title" style="font-weight: bold">{{ destination.place_name }}</h4>
+                    <p class="card-text" style="font-weight: bold">Weather: {{ destination.weather }}</p>
+                    <p class="card-text" style="font-weight: bold">State: {{ destination.state }}</p>
+                    <p class="card-text" style="font-weight: bold">District: {{ destination.district }}</p>
+                    <a href="{% url 'detail_destinations' destination.id %}" class="btn btn-primary">Details</a>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center">
+            No destinations found.
+        </div>
+    {% endif %}
+</div>
+
+<!-- Pagination Controls -->
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        {% if destinations.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ destinations.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        {% endif %}
+        {% for num in destinations.paginator.page_range %}
+            <li class="page-item {% if destinations.number == num %}active{% endif %}">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+        {% endfor %}
+        {% if destinations.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ destinations.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endblock %}

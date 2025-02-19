@@ -1,0 +1,62 @@
+{% extends 'accounts_base.html' %}
+{% load static %}
+{% block content %}
+<h2 class="text-center"><strong>Signup</strong></h2><hr/>
+    {% if messages %}
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+{% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <table class="table table-borderless w-60">
+            <tr>
+                <td><strong>{{ form.name.label_tag }}</strong></td>
+                <td>{{ form.name }}</td>
+            </tr>
+            <tr>
+                <td><strong>{{ form.email.label_tag }}</strong></td>
+                <td>{{ form.email }}</td>
+            </tr>
+            <tr>
+                <td><strong>{{ form.country.label_tag }}</strong></td>
+                <td>{{ form.country }}</td>
+            </tr>
+            <tr>
+                <td><strong>{{ form.state.label_tag }}</strong></td>
+                <td>{{ form.state }}</td>
+            </tr>
+            <tr>
+                <td><strong>{{ form.district.label_tag }}</strong></td>
+                <td>{{ form.district }}</td>
+            </tr>
+            <tr>
+                <td><strong>{{ form.username.label_tag }}</strong></td>
+                <td>{{ form.username }}</td>
+            </tr>
+            <tr>
+                <td><strong>{{ form.password.label_tag }}</strong></td>
+                <td>{{ form.password }}</td>
+            </tr>
+            <tr>
+                <td><strong>{{ form.confirm_password.label_tag }}</strong></td>
+                <td>{{ form.confirm_password }}</td>
+            </tr>
+
+
+        </table>
+        <center><button type="submit">Register</button></center></br>
+        <center><h6>Already registered? <a href="{% url 'user_login' %}" style="text-decoration: None">Login Now</a></h6></center>
+    </form>
+ <script>
+       document.addEventListener("DOMContentLoaded", function() {
+           // Automatically submit form when country or state dropdown changes
+           document.getElementById('id_country').addEventListener('change', function() {
+               this.form.submit();
+           });
+           document.getElementById('id_state').addEventListener('change', function() {
+               this.form.submit();
+           });
+       });
+    </script>
+{% endblock %}
